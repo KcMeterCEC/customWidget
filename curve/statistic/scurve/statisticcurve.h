@@ -5,6 +5,7 @@
 
 class Splot;
 class SplotCurve;
+class Smarker;
 class StatisticCurve : public QWidget
 {
     Q_OBJECT
@@ -20,11 +21,15 @@ private:
     Splot     *plot = nullptr;
     QVector<SplotCurve *> curves;
     QVector<QPolygonF> curvesData;
+    Smarker *marker = nullptr;
+    int mouseIdx = 0;
 
     void clearCurvesData(void);
     void deleteCurves(void);
 signals:
 
+private slots:
+    void mouseMovedInCanvas(const QPointF & p);
 };
 
 #endif // STATISTICCURVE_H

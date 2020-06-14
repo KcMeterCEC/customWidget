@@ -19,6 +19,7 @@ include ($${QWT_ROOT}/features/qwt.prf)
 SOURCES += \
     main.cpp \
     scurve/slegend.cpp \
+    scurve/smarker.cpp \
     scurve/splot.cpp \
     scurve/splotcurve.cpp \
     scurve/splotgrid.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
 
 HEADERS += \
     scurve/slegend.h \
+    scurve/smarker.h \
     scurve/splot.h \
     scurve/splotcurve.h \
     scurve/splotgrid.h \

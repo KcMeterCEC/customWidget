@@ -1,14 +1,22 @@
 #include <QGridLayout>
 #include <QMap>
 #include <QPolygonF>
+#include <QPoint>
+#include <QDebug>
 #include "statisticcurve.h"
 #include "splot.h"
 #include "splotcurve.h"
+#include "smarker.h"
 
 StatisticCurve::StatisticCurve(const QString &title, QWidget *parent) :
     QWidget(parent),
-    plot(new Splot(title, this))
+    plot(new Splot(title, this)),
+    marker (new Smarker())
 {
+    marker->attach(plot);
+
+    connect(plot, &Splot::mouseMoved, this, &StatisticCurve::mouseMovedInCanvas);
+
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(plot, 0, 0);
 
@@ -62,4 +70,37 @@ void StatisticCurve::deleteCurves(void)
         }
         curves.clear();
     }
+}
+void StatisticCurve::mouseMovedInCanvas(const QPointF & p)
+{
+    if(!curvesData.size() || !curvesData[0].size())
+    {
+        return;
+    }
+    qreal currentX = p.x();
+    QPolygonF &curveData = curvesData[0];
+    mouseIdx = curveData.size() - 1;
+    for(int i = 0; i < curveData.size() - 1; ++i)
+    {
+        if(curveData[i + 1].rx() > currentX)
+        {
+            mouseIdx = i;
+
+            if((curveData[i + 1].rx() - currentX) <
+                    (currentX - curveData[i].rx()))
+            {
+                mouseIdx += 1;
+            }
+            break;
+        }
+    }
+
+    qreal drawX = plot->canvasMap(Splot::xBottom).transform(curveData[mouseIdx].rx());
+    marker->redraw(drawX);
+
+    qDebug() << "mouse move : " << p << " -> " << curveData[mouseIdx].rx()
+             << "map from >> " << plot->canvasMap(Splot::xBottom).transform(curveData[mouseIdx].rx())
+             ;
+
+
 }
