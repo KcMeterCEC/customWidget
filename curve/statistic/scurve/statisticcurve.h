@@ -31,6 +31,7 @@ signals:
 
 private slots:
     void mouseMovedInCanvas(const QPointF & p);
+    void mouseRemovedOutCanvas(const QPointF & p);
 };
 
 #endif // STATISTICCURVE_H

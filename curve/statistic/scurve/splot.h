@@ -13,6 +13,7 @@ private:
     QwtPlotPicker *mousePicker = nullptr;
 signals:
     void mouseMoved(const QPointF & p);
+    void mouseRemoved(const QPointF & p);
 };
 
 #endif // SPLOT_H

@@ -17,6 +17,7 @@ StatisticCurve::StatisticCurve(const QString &title, QWidget *parent) :
     marker->attach(plot);
 
     connect(plot, &Splot::mouseMoved, this, &StatisticCurve::mouseMovedInCanvas);
+    connect(plot, &Splot::mouseRemoved, this, &StatisticCurve::mouseRemovedOutCanvas);
 
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(plot, 0, 0);
@@ -80,6 +81,8 @@ void StatisticCurve::mouseMovedInCanvas(const QPointF & p)
     {
         return;
     }
+    marker->show();
+
     qreal currentX = p.x();
     QPolygonF &curveData = curvesData[0];
     mouseIdx = curveData.size() - 1;
@@ -99,6 +102,11 @@ void StatisticCurve::mouseMovedInCanvas(const QPointF & p)
     }
 
 
+    refresh();
+}
+void StatisticCurve::mouseRemovedOutCanvas(const QPointF & p)
+{
+    marker->hide();
     refresh();
 }
 void StatisticCurve::refresh(void)

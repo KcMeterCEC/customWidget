@@ -12,4 +12,5 @@ Splot::Splot(const QwtText &title, QWidget *parent):
     mousePicker->setStateMachine(new QwtPickerTrackerMachine());
 
     connect(mousePicker, &QwtPlotPicker::moved, this, &Splot::mouseMoved);
+    connect(mousePicker, &QwtPlotPicker::removed, this, &Splot::mouseRemoved);
 }
