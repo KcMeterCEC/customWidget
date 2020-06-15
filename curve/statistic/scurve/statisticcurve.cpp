@@ -2,6 +2,7 @@
 #include <QMap>
 #include <QPolygonF>
 #include <QPoint>
+#include <QMouseEvent>
 #include <QDebug>
 #include "statisticcurve.h"
 #include "splot.h"
@@ -21,6 +22,8 @@ StatisticCurve::StatisticCurve(const QString &title, QWidget *parent) :
     layout->addWidget(plot, 0, 0);
 
     setLayout(layout);
+
+    setMouseTracking(true);
 }
 void StatisticCurve::setCurvesNum(const QVector<QPair<QString, QColor>> &cs)
 {
@@ -95,12 +98,18 @@ void StatisticCurve::mouseMovedInCanvas(const QPointF & p)
         }
     }
 
-    qreal drawX = plot->canvasMap(Splot::xBottom).transform(curveData[mouseIdx].rx());
+
+    refresh();
+}
+void StatisticCurve::refresh(void)
+{
+    qreal drawX = plot->canvasMap(Splot::xBottom).transform(curvesData[0][mouseIdx].rx());
     marker->redraw(drawX);
+    plot->replot();
+}
+void StatisticCurve::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event);
 
-    qDebug() << "mouse move : " << p << " -> " << curveData[mouseIdx].rx()
-             << "map from >> " << plot->canvasMap(Splot::xBottom).transform(curveData[mouseIdx].rx())
-             ;
-
-
+    refresh();
 }

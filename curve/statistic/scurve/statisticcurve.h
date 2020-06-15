@@ -16,7 +16,7 @@ public:
     //! add data to each curve
     void addData(const QVector<QPolygonF> &data);
 protected:
-
+    void resizeEvent(QResizeEvent *event) override;
 private:
     Splot     *plot = nullptr;
     QVector<SplotCurve *> curves;
@@ -26,6 +26,7 @@ private:
 
     void clearCurvesData(void);
     void deleteCurves(void);
+    void refresh(void);
 signals:
 
 private slots:

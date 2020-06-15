@@ -13,13 +13,10 @@ int Smarker::rtti() const
 void Smarker::draw(QPainter *painter,
         const QwtScaleMap &xMap, const QwtScaleMap &yMap, const QRectF & canvasRect) const
 {
-    qDebug() << "canvasRect " << canvasRect;
-
     drawCenterLine(painter, canvasRect);
 }
 void Smarker::drawCenterLine(QPainter *painter, const QRectF & canvasRect) const
 {
-    qDebug() << "redraw line : " << curveX;
     qreal lineX = curveX;
     qreal lineY = canvasRect.y();
     qreal len = canvasRect.height();
