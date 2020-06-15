@@ -9,10 +9,10 @@ int main(int argc, char *argv[])
 
     QVector<QPair<QString, QColor>> cs;
 
-    cs.push_back(QPair<QString, QColor>("curve1", Qt::red));
-    cs.push_back(QPair<QString, QColor>("curve2", Qt::yellow));
-    cs.push_back(QPair<QString, QColor>("curve3", Qt::blue));
-    cs.push_back(QPair<QString, QColor>("curve4", Qt::green));
+    cs.push_back(QPair<QString, QColor>("curve1", QColor(109, 96, 214)));
+    cs.push_back(QPair<QString, QColor>("curve2", QColor(245, 166, 37)));
+    cs.push_back(QPair<QString, QColor>("curve3", QColor(31, 159, 22)));
+    cs.push_back(QPair<QString, QColor>("curve4", QColor(185, 179, 217)));
 
     curve.setCurvesNum(cs);
 

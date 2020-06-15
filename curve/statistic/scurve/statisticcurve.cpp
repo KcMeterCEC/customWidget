@@ -106,13 +106,34 @@ void StatisticCurve::mouseMovedInCanvas(const QPointF & p)
 }
 void StatisticCurve::mouseRemovedOutCanvas(const QPointF & p)
 {
+    Q_UNUSED(p);
+
     marker->hide();
     refresh();
 }
 void StatisticCurve::refresh(void)
 {
-    qreal drawX = plot->canvasMap(Splot::xBottom).transform(curvesData[0][mouseIdx].rx());
-    marker->redraw(drawX);
+    qreal x = curvesData[0][mouseIdx].rx();
+    qreal drawX = plot->canvasMap(Splot::xBottom).transform(x);
+    QString name = QString("%1").arg(x);
+
+    //display contents at left
+    if(mouseIdx < curvesData[0].size() / 2)
+    {
+        drawX = 0 - drawX;
+    }
+
+    QVector<std::tuple<QColor, QString, qreal>> contents;
+
+    for(int i = 0; i < curves.size(); ++i)
+    {
+        QColor color = curves[i]->pen().color();
+        QString name = curves[i]->title().text();
+        qreal   val = curves[i]->sample(mouseIdx).ry();
+
+        contents.push_back(std::tuple<QColor, QString, qreal>(color, name, val));
+    }
+    marker->redraw(drawX, name, contents);
     plot->replot();
 }
 void StatisticCurve::resizeEvent(QResizeEvent *event)
