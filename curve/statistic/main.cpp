@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     cs.push_back(QPair<QString, QColor>("curve4", QColor(185, 179, 217)));
 
     curve.setCurvesNum(cs);
+    curve.setAxisType(SscaleDraw::TIME);
 
     QVector<QPolygonF> data;
     data.resize(cs.size());

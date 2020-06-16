@@ -14,7 +14,7 @@ StatisticCurve::StatisticCurve(const QString &title, QWidget *parent) :
     QWidget(parent),
     plot(new Splot(title, this)),
     marker (new Smarker()),
-    Xscale (new SscaleDraw())
+    Xscale (new SscaleDraw(QTime(0, 0, 0)))
 {
     marker->attach(plot);
     plot->setAxisScaleDraw( QwtPlot::xBottom, Xscale);
@@ -117,7 +117,7 @@ void StatisticCurve::refresh(void)
 {
     qreal x = curvesData[0][mouseIdx].rx();
     qreal drawX = plot->canvasMap(Splot::xBottom).transform(x);
-    QString name = QString("%1").arg(x);
+    QString name = Xscale->label(x).text();
 
     //display contents at left
     if(mouseIdx < curvesData[0].size() / 2)
@@ -144,7 +144,7 @@ void StatisticCurve::resizeEvent(QResizeEvent *event)
 
     refresh();
 }
-void StatisticCurve::setAxisType(enum axisType x)
+void StatisticCurve::setAxisType(SscaleDraw::axisType x)
 {
-    type = x;
+    Xscale->setAxisType(x);
 }
