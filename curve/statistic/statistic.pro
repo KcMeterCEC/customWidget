@@ -23,6 +23,7 @@ SOURCES += \
     scurve/splot.cpp \
     scurve/splotcurve.cpp \
     scurve/splotgrid.cpp \
+    scurve/sscaledraw.cpp \
     scurve/ssymbol.cpp \
     scurve/statisticcurve.cpp
 
@@ -32,5 +33,6 @@ HEADERS += \
     scurve/splot.h \
     scurve/splotcurve.h \
     scurve/splotgrid.h \
+    scurve/sscaledraw.h \
     scurve/ssymbol.h \
     scurve/statisticcurve.h

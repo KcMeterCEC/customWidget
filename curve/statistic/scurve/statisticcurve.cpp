@@ -8,14 +8,16 @@
 #include "splot.h"
 #include "splotcurve.h"
 #include "smarker.h"
+#include "sscaledraw.h"
 
 StatisticCurve::StatisticCurve(const QString &title, QWidget *parent) :
     QWidget(parent),
     plot(new Splot(title, this)),
-    marker (new Smarker())
+    marker (new Smarker()),
+    Xscale (new SscaleDraw())
 {
     marker->attach(plot);
-
+    plot->setAxisScaleDraw( QwtPlot::xBottom, Xscale);
     connect(plot, &Splot::mouseMoved, this, &StatisticCurve::mouseMovedInCanvas);
     connect(plot, &Splot::mouseRemoved, this, &StatisticCurve::mouseRemovedOutCanvas);
 
@@ -141,4 +143,8 @@ void StatisticCurve::resizeEvent(QResizeEvent *event)
     Q_UNUSED(event);
 
     refresh();
+}
+void StatisticCurve::setAxisType(enum axisType x)
+{
+    type = x;
 }
