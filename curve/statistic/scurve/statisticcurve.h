@@ -8,6 +8,8 @@ class Splot;
 class SplotCurve;
 class Smarker;
 class SscaleDraw;
+class SplotPanner;
+class SplotMagnifier;
 class StatisticCurve : public QWidget
 {
     Q_OBJECT
@@ -28,6 +30,8 @@ private:
     Smarker *marker = nullptr;
     int mouseIdx = 0;
     SscaleDraw *Xscale = nullptr;
+    SplotPanner *panner = nullptr;
+    SplotMagnifier *magnifier = nullptr;
 
     void clearCurvesData(void);
     void deleteCurves(void);

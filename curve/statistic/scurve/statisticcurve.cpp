@@ -9,6 +9,8 @@
 #include "splotcurve.h"
 #include "smarker.h"
 #include "sscaledraw.h"
+#include "splotpanner.h"
+#include "splotmagnifier.h"
 
 StatisticCurve::StatisticCurve(const QString &title, QWidget *parent) :
     QWidget(parent),
@@ -18,6 +20,11 @@ StatisticCurve::StatisticCurve(const QString &title, QWidget *parent) :
 {
     marker->attach(plot);
     plot->setAxisScaleDraw( QwtPlot::xBottom, Xscale);
+
+    panner = new SplotPanner(plot->canvas());
+
+    magnifier = new SplotMagnifier(plot->canvas());
+
     connect(plot, &Splot::mouseMoved, this, &StatisticCurve::mouseMovedInCanvas);
     connect(plot, &Splot::mouseRemoved, this, &StatisticCurve::mouseRemovedOutCanvas);
 
