@@ -22,7 +22,7 @@ StatisticCurve::StatisticCurve(const QString &title, bool brush, QWidget *parent
 {
     marker->attach(plot);
     plot->setAxisScaleDraw( QwtPlot::xBottom, Xscale);
-    plot->insertLegend(new Slegend(), QwtPlot::TopLegend);
+    plot->insertLegend(new Slegend(), QwtPlot::RightLegend);
 
     panner = new SplotPanner(plot->canvas());
     panner->setCursor(Qt::ClosedHandCursor);
