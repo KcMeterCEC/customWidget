@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     cs.push_back(QPair<QString, QColor>("curve3", QColor(31, 159, 22)));
     cs.push_back(QPair<QString, QColor>("curve4", QColor(185, 179, 217)));
 
+    curve.setAxisTitle("time elaspe", "MBytes");
     curve.setCurvesNum(cs);
     curve.setAxisType(SscaleDraw::TIME);
 

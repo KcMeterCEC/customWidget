@@ -23,6 +23,7 @@ public:
     //! add data to each curve
     void addData(const QVector<QPolygonF> &data);
     void setAxisType(SscaleDraw::axisType x);
+    void setAxisTitle(const QString &xTitle, const QString &yTitle);
 protected:
     void resizeEvent(QResizeEvent *event) override;
 private:

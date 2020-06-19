@@ -11,6 +11,7 @@
 #include "sscaledraw.h"
 #include "splotpanner.h"
 #include "splotmagnifier.h"
+#include "slegend.h"
 
 StatisticCurve::StatisticCurve(const QString &title, bool brush, QWidget *parent) :
     QWidget(parent),
@@ -21,8 +22,10 @@ StatisticCurve::StatisticCurve(const QString &title, bool brush, QWidget *parent
 {
     marker->attach(plot);
     plot->setAxisScaleDraw( QwtPlot::xBottom, Xscale);
+    plot->insertLegend(new Slegend(), QwtPlot::TopLegend);
 
     panner = new SplotPanner(plot->canvas());
+    panner->setCursor(Qt::ClosedHandCursor);
 
     magnifier = new SplotMagnifier(plot->canvas());
 
@@ -150,6 +153,11 @@ void StatisticCurve::refresh(void)
     }
     marker->redraw(drawX, name, contents);
     plot->replot();
+}
+void StatisticCurve::setAxisTitle(const QString &xTitle, const QString &yTitle)
+{
+    plot->setAxisTitle(QwtPlot::xBottom, xTitle);
+    plot->setAxisTitle(QwtPlot::yLeft, yTitle);
 }
 void StatisticCurve::resizeEvent(QResizeEvent *event)
 {
