@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    StatisticCurve curve("curve test");
+    StatisticCurve curve("curve test", true);
 
     QVector<QPair<QString, QColor>> cs;
 

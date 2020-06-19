@@ -14,8 +14,10 @@ class StatisticCurve : public QWidget
 {
     Q_OBJECT
 public:
-
-    explicit StatisticCurve(const QString & title = "statistic curve",QWidget *parent = nullptr);
+    //! when brush is true,the curves z axis will be arranged from bottom to top.
+    explicit StatisticCurve(const QString & title = "statistic curve",
+                            bool brush = false,
+                            QWidget *parent = nullptr);
     //! set the name and color for each curve
     void setCurvesNum(const QVector<QPair<QString, QColor>> &cs);
     //! add data to each curve
@@ -32,6 +34,7 @@ private:
     SscaleDraw *Xscale = nullptr;
     SplotPanner *panner = nullptr;
     SplotMagnifier *magnifier = nullptr;
+    bool    hasBrush = false;
 
     void clearCurvesData(void);
     void deleteCurves(void);

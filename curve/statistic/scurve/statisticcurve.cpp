@@ -12,9 +12,10 @@
 #include "splotpanner.h"
 #include "splotmagnifier.h"
 
-StatisticCurve::StatisticCurve(const QString &title, QWidget *parent) :
+StatisticCurve::StatisticCurve(const QString &title, bool brush, QWidget *parent) :
     QWidget(parent),
     plot(new Splot(title, this)),
+    hasBrush(brush),
     marker (new Smarker()),
     Xscale (new SscaleDraw(QTime(0, 0, 0)))
 {
@@ -42,6 +43,11 @@ void StatisticCurve::setCurvesNum(const QVector<QPair<QString, QColor>> &cs)
     {
         SplotCurve *curve = new SplotCurve(cs[i].first);
         curve->setPen(cs[i].second);
+        if(hasBrush)
+        {
+            curve->setBrush(cs[i].second);
+            curve->setZ(curve->z() - i);
+        }
         curve->setRenderHint(QwtPlotItem::RenderAntialiased, true);
 
         curves.push_back(curve);
