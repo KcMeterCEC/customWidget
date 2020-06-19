@@ -39,16 +39,18 @@ StatisticCurve::StatisticCurve(const QString &title, bool brush, QWidget *parent
 
     setMouseTracking(true);
 }
-void StatisticCurve::setCurvesNum(const QVector<QPair<QString, QColor>> &cs)
+void StatisticCurve::setCurvesNum(const QVector<QString> &cs)
 {
     deleteCurves();
     for(int i = 0; i < cs.size(); ++i)
     {
-        SplotCurve *curve = new SplotCurve(cs[i].first);
-        curve->setPen(cs[i].second);
+        SplotCurve *curve = new SplotCurve(cs[i]);
+        QColor color = curveColor[i %
+                (sizeof(curveColor) / sizeof(curveColor[0]))];
+        curve->setPen(color);
         if(hasBrush)
         {
-            curve->setBrush(cs[i].second);
+            curve->setBrush(color);
             curve->setZ(curve->z() - i);
         }
         curve->setRenderHint(QwtPlotItem::RenderAntialiased, true);
@@ -78,8 +80,12 @@ void StatisticCurve::clearCurvesData(void)
 {
     if(curvesData.size())
     {
-        curvesData.clear();
+        for(int i = 0; i < curvesData.size(); ++i)
+        {
+            curvesData[i].clear();
+        }
     }
+    refresh();
 }
 void StatisticCurve::deleteCurves(void)
 {
@@ -131,27 +137,30 @@ void StatisticCurve::mouseRemovedOutCanvas(const QPointF & p)
 }
 void StatisticCurve::refresh(void)
 {
-    qreal x = curvesData[0][mouseIdx].rx();
-    qreal drawX = plot->canvasMap(Splot::xBottom).transform(x);
-    QString name = Xscale->label(x).text();
-
-    //display contents at left
-    if(mouseIdx < curvesData[0].size() / 2)
+    if(curvesData.size() && curvesData[0].size())
     {
-        drawX = 0 - drawX;
+        qreal x = curvesData[0][mouseIdx].rx();
+        qreal drawX = plot->canvasMap(Splot::xBottom).transform(x);
+        QString name = Xscale->label(x).text();
+
+        //display contents at left
+        if(mouseIdx < curvesData[0].size() / 2)
+        {
+            drawX = 0 - drawX;
+        }
+
+        QVector<std::tuple<QColor, QString, qreal>> contents;
+
+        for(int i = 0; i < curves.size(); ++i)
+        {
+            QColor color = curves[i]->pen().color();
+            QString name = curves[i]->title().text();
+            qreal   val = curves[i]->sample(mouseIdx).ry();
+
+            contents.push_back(std::tuple<QColor, QString, qreal>(color, name, val));
+        }
+        marker->redraw(drawX, name, contents);
     }
-
-    QVector<std::tuple<QColor, QString, qreal>> contents;
-
-    for(int i = 0; i < curves.size(); ++i)
-    {
-        QColor color = curves[i]->pen().color();
-        QString name = curves[i]->title().text();
-        qreal   val = curves[i]->sample(mouseIdx).ry();
-
-        contents.push_back(std::tuple<QColor, QString, qreal>(color, name, val));
-    }
-    marker->redraw(drawX, name, contents);
     plot->replot();
 }
 void StatisticCurve::setAxisTitle(const QString &xTitle, const QString &yTitle)

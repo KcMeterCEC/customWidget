@@ -7,12 +7,12 @@ int main(int argc, char *argv[])
 
     StatisticCurve curve("curve test", true);
 
-    QVector<QPair<QString, QColor>> cs;
+    QVector<QString> cs;
 
-    cs.push_back(QPair<QString, QColor>("curve1", QColor(109, 96, 214)));
-    cs.push_back(QPair<QString, QColor>("curve2", QColor(245, 166, 37)));
-    cs.push_back(QPair<QString, QColor>("curve3", QColor(31, 159, 22)));
-    cs.push_back(QPair<QString, QColor>("curve4", QColor(185, 179, 217)));
+    cs.push_back(QString("curve1"));
+    cs.push_back(QString("curve2"));
+    cs.push_back(QString("curve3"));
+    cs.push_back(QString("curve4"));
 
     curve.setAxisTitle("time elaspe", "MBytes");
     curve.setCurvesNum(cs);
